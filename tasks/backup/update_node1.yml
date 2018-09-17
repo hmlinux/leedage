@@ -1,0 +1,285 @@
+---
+- hosts: 172.26.3.75
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-servive"
+    - serviceName: "ldgs_service"
+    - appHome: "/opt/leedage/app/ldgs-service"
+    - appBase: "/opt/leedage/app/ldgs-service/webapps"
+    - backupDir: "/opt/app/webapps/backup"
+    - sourceDir: "/data/ansible/leedage/update/webapps/leedage"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - var: "refreshService.war,commonService.war,userService.war"
+    - ports: 28081,18051,18001
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Create {{ backupDir }}
+      file: dest={{ backupDir }} state=directory
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+    - name: Delete {{ backupDir }}/{{ appName }}
+      file: path={{ backupDir }}/{{ appName }} state=absent
+    - name: Backup {{ appBase }}
+      shell: mv {{ appBase }} {{ backupDir }}/{{ appName }}
+    - name: Create {{ appBase }}
+      file: dest={{ appBase }} state=directory owner=root group=root mode=0755 recurse=yes
+    - name: Copy {{ war }} to {{ appBase }}
+      copy: src={{ sourceDir }}/{{ item }} dest={{ appBase }}/
+      with_items:
+        - refreshService.war
+        - commonService.war
+        - userService.war
+    #- name: Startup {{ appName }} service
+    #  service: name={{ serviceName }} state=started
+
+#- hosts: 172.26.3.75
+#  remote_user: root
+#  gather_facts: True
+#  vars:
+#    - appName: "ldgs-income"
+#    - serviceName: "ldgs_income_service"
+#    - appHome: "/opt/leedage/app/ldgs-income"
+#    - appBase: "/opt/leedage/app/ldgs-income/webapps"
+#    - backupDir: "/opt/app/webapps/backup"
+#    - sourceDir: "/data/ansible/leedage/update/webapps/leedage"
+#    - scriptDir: "/data/ansible/leedage/update/scripts"
+#    - war: "incomeShareService.war"
+#    - ports: 28084,18054,18004
+#  tasks:
+#    - name: init script
+#      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+#    - name: Create {{ backupDir }}
+#      file: dest={{ backupDir }} state=directory
+#    - name: Shutdown {{ appName }} service
+#      service: name={{ serviceName }} state=stopped
+#    - name: Wait 3 seconds
+#      shell: sleep 3
+#    - name: Delete {{ backupDir }}/{{ appName }}
+#      file: path={{ backupDir }}/{{ appName }} state=absent
+#    - name: Backup {{ appBase }}
+#      shell: mv {{ appBase }} {{ backupDir }}/{{ appName }}
+#    - name: Create {{ appBase }}
+#      file: dest={{ appBase }} state=directory owner=root group=root recurse=yes
+#    - name: Copy {{ war }} to {{ appBase }}
+#      copy: src={{ sourceDir }}/{{ item }} dest={{ appBase }}/
+#      with_items:
+#        - incomeShareService.war
+#    - name: Startup {{ appName }} service
+#      service: name={{ serviceName }} state=started
+
+- hosts: 172.26.3.96
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-data"
+    - serviceName: "ldgs_data_server"
+    - appHome: "/opt/leedage/app/ldgs-data"
+    - appBase: "/opt/leedage/app/ldgs-data/webapps"
+    - backupDir: "/opt/app/webapps/backup"
+    - sourceDir: "/data/ansible/leedage/update/webapps/leedage"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "dataServer.war"
+    - ports: 28811,19015,19011
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Create {{ backupDir }}
+      file: dest={{ backupDir }} state=directory
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+    - name: Delete {{ backupDir }}/{{ appName }}
+      file: path={{ backupDir }}/{{ appName }} state=absent
+    - name: Backup {{ appBase }}
+      shell: mv {{ appBase }} {{ backupDir }}/{{ appName }}
+    - name: Create {{ appBase }}
+      file: dest={{ appBase }} state=directory owner=root group=root recurse=yes
+    - name: Copy {{ war }} to {{ appBase }}
+      copy: src={{ sourceDir }}/{{ item }} dest={{ appBase }}/
+      with_items:
+        - dataServer.war
+    #- name: Startup {{ appName }} service
+    #  service: name={{ serviceName }} state=started
+
+- hosts: 172.26.3.96
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-sso"
+    - serviceName: "ldgs_sso_server"
+    - appHome: "/opt/leedage/app/ldgs-sso"
+    - appBase: "/opt/leedage/app/ldgs-sso/webapps"
+    - backupDir: "/opt/app/webapps/backup"
+    - sourceDir: "/data/ansible/leedage/update/webapps/leedage"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "ssoServer.war"
+    - ports: 28810,19005,19010
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Create {{ backupDir }}
+      file: dest={{ backupDir }} state=directory
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+    - name: Delete {{ backupDir }}/{{ appName }}
+      file: path={{ backupDir }}/{{ appName }} state=absent
+    - name: Backup {{ appBase }}
+      shell: mv {{ appBase }} {{ backupDir }}/{{ appName }}
+    - name: Create {{ appBase }}
+      file: dest={{ appBase }} state=directory owner=root group=root recurse=yes
+    - name: Copy {{ war }} to {{ appBase }}
+      copy: src={{ sourceDir }}/{{ item }} dest={{ appBase }}/
+      with_items:
+        - ssoServer.war
+    #- name: Startup {{ appName }} service
+    #  service: name={{ serviceName }} state=started
+
+- hosts: 172.26.3.77
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-tasks"
+    - serviceName: "ldgs_tasks_server"
+    - appHome: "/opt/leedage/app/ldgs-tasks"
+    - appBase: "/opt/leedage/app/ldgs-tasks/webapps"
+    - backupDir: "/opt/app/webapps/backup"
+    - sourceDir: "/data/ansible/leedage/update/webapps/leedage"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "taskServer.war"
+    - ports: 28812,19025,19012
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Create {{ backupDir }}
+      file: dest={{ backupDir }} state=directory
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+    - name: Delete {{ backupDir }}/{{ appName }}
+      file: path={{ backupDir }}/{{ appName }} state=absent
+    - name: Backup {{ appBase }}
+      shell: mv {{ appBase }} {{ backupDir }}/{{ appName }}
+    - name: Create {{ appBase }}
+      file: dest={{ appBase }} state=directory owner=root group=root recurse=yes
+    - name: Copy {{ war }} to {{ appBase }}
+      copy: src={{ sourceDir }}/{{ item }} dest={{ appBase }}/
+      with_items:
+        - taskServer.war
+    #- name: Startup {{ appName }} service
+    #  service: name={{ serviceName }} state=started
+
+
+- hosts: 172.26.3.84
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-leedage"
+    - serviceName: "ldgs_leedage"
+    - appHome: "/opt/leedage/app/ldgs-leedage"
+    - appBase: "/opt/leedage/app/ldgs-leedage/webapps"
+    - backupDir: "/opt/app/webapps/backup"
+    - sourceDir: "/data/ansible/leedage/update/webapps/leedage"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "h5Server.war"
+    - ports: 18080,9054,9080
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Create {{ backupDir }}
+      file: dest={{ backupDir }} state=directory
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+    - name: Delete {{ backupDir }}/{{ appName }}
+      file: path={{ backupDir }}/{{ appName }} state=absent
+    - name: Backup {{ appBase }}
+      shell: mv {{ appBase }} {{ backupDir }}/{{ appName }}
+    - name: Create {{ appBase }}
+      file: dest={{ appBase }} state=directory owner=root group=root recurse=yes
+    - name: Copy {{ war }} to {{ appBase }}
+      copy: src={{ sourceDir }}/{{ item }} dest={{ appBase }}/
+      with_items:
+        - h5Server.war
+    #- name: Startup {{ appName }} service
+    #  service: name={{ serviceName }} state=started
+
+
+- hosts: 172.26.3.79
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-merchant"
+    - serviceName: "ldgs_merchant"
+    - appHome: "/opt/leedage/app/ldgs-merchant"
+    - appBase: "/opt/leedage/app/ldgs-merchant/webapps"
+    - backupDir: "/opt/app/webapps/backup"
+    - sourceDir: "/data/ansible/leedage/update/webapps/leedage"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "merchantServer.war"
+    - ports: 18801,9055,9081
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Create {{ backupDir }}
+      file: dest={{ backupDir }} state=directory
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+    - name: Delete {{ backupDir }}/{{ appName }}
+      file: path={{ backupDir }}/{{ appName }} state=absent
+    - name: Backup {{ appBase }}
+      shell: mv {{ appBase }} {{ backupDir }}/{{ appName }}
+    - name: Create {{ appBase }}
+      file: dest={{ appBase }} state=directory owner=root group=root recurse=yes
+    - name: Copy {{ war }} to {{ appBase }}
+      copy: src={{ sourceDir }}/{{ item }} dest={{ appBase }}/
+      with_items:
+        - merchantServer.war
+    #- name: Startup {{ appName }} service
+    #  service: name={{ serviceName }} state=started
+
+- hosts: 172.26.3.79
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-system"
+    - serviceName: "ldgs_system"
+    - appHome: "/opt/leedage/app/ldgs-system"
+    - appBase: "/opt/leedage/app/ldgs-system/webapps"
+    - backupDir: "/opt/app/webapps/backup"
+    - sourceDir: "/data/ansible/leedage/update/webapps/leedage"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "systemServer.war"
+    - ports: 18890,9056,9082
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Create {{ backupDir }}
+      file: dest={{ backupDir }} state=directory
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+    - name: Delete {{ backupDir }}/{{ appName }}
+      file: path={{ backupDir }}/{{ appName }} state=absent
+    - name: Backup {{ appBase }}
+      shell: mv {{ appBase }} {{ backupDir }}/{{ appName }}
+    - name: Create {{ appBase }}
+      file: dest={{ appBase }} state=directory owner=root group=root recurse=yes
+    - name: Copy {{ war }} to {{ appBase }}
+      copy: src={{ sourceDir }}/{{ item }} dest={{ appBase }}/
+      with_items:
+        - systemServer.war
+    #- name: Startup {{ appName }} service
+    #  service: name={{ serviceName }} state=started
+

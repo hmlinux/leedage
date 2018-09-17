@@ -1,0 +1,214 @@
+---
+- hosts: 172.26.3.113
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-leedage"
+    - serviceName: "ldgs_leedage"
+    - appHome: "/opt/leedage/app/ldgs-leedage"
+    - appBase: "/opt/leedage/app/ldgs-leedage/webapps"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "h5Server.war"
+    - ports: 18080,9054,9080
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+
+- hosts: 172.26.3.80
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-merchant"
+    - serviceName: "ldgs_merchant"
+    - appHome: "/opt/leedage/app/ldgs-merchant"
+    - appBase: "/opt/leedage/app/ldgs-merchant/webapps"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "merchantServer.war"
+    - ports: 18801,9055,9081
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+
+- hosts: 172.26.3.80
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-system"
+    - serviceName: "ldgs_system"
+    - appHome: "/opt/leedage/app/ldgs-system"
+    - appBase: "/opt/leedage/app/ldgs-system/webapps"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "systemServer.war"
+    - ports: 18890,9056,9082
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+
+
+- hosts: 172.26.3.107
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-tasks"
+    - serviceName: "ldgs_tasks_server"
+    - appHome: "/opt/leedage/app/ldgs-tasks"
+    - appBase: "/opt/leedage/app/ldgs-tasks/webapps"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "taskServer.war"
+    - ports: 28812,19025,19012
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+
+
+- hosts: 172.26.3.98
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-data"
+    - serviceName: "ldgs_data_server"
+    - appHome: "/opt/leedage/app/ldgs-data"
+    - appBase: "/opt/leedage/app/ldgs-data/webapps"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "dataServer.war"
+    - ports: 28811,19015,19011
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+
+- hosts: 172.26.3.98
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-sso"
+    - serviceName: "ldgs_sso_server"
+    - appHome: "/opt/leedage/app/ldgs-sso"
+    - appBase: "/opt/leedage/app/ldgs-sso/webapps"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "ssoServer.war"
+    - ports: 28810,19005,19010
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+
+- hosts: 172.26.3.104
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-statistics"
+    - serviceName: "ldgs_statistics_server"
+    - appHome: "/opt/leedage/app/ldgs-statistics"
+    - appBase: "/opt/leedage/app/ldgs-statistics/webapps"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - var: "statisticsServer.war"
+    - ports: 28083,18053,18003
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+
+- hosts: 172.26.3.100
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-income"
+    - serviceName: "ldgs_income_service"
+    - appHome: "/opt/leedage/app/ldgs-income"
+    - appBase: "/opt/leedage/app/ldgs-income/webapps"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "incomeShareService.war"
+    - ports: 28084,18054,18004
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+
+
+- hosts: 172.26.3.116
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-user"
+    - serviceName: "ldgs_user_service"
+    - appHome: "/opt/leedage/app/ldgs-user"
+    - appBase: "/opt/leedage/app/ldgs-user/webapps"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "userService.war"
+    - ports: 28082,18052,18002
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+
+- hosts: 172.26.3.116
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-refresh"
+    - serviceName: "ldgs_refresh_service"
+    - appHome: "/opt/leedage/app/ldgs-refresh"
+    - appBase: "/opt/leedage/app/ldgs-refresh/webapps"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "refreshService.war"
+    - ports: 28085,18055,18005
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+
+- hosts: 172.26.3.76
+  remote_user: root
+  gather_facts: True
+  vars:
+    - appName: "ldgs-common"
+    - serviceName: "ldgs_common_service"
+    - appHome: "/opt/leedage/app/ldgs-common"
+    - appBase: "/opt/leedage/app/ldgs-common/webapps"
+    - scriptDir: "/data/ansible/leedage/update/scripts"
+    - war: "commonService.war"
+    - ports: 28081,18051,18001
+  tasks:
+    - name: init script
+      copy: src={{ scriptDir }}/{{ serviceName }} dest=/etc/init.d/{{ serviceName }} owner=root group=root mode=0755
+    - name: Shutdown {{ appName }} service
+      service: name={{ serviceName }} state=stopped
+    - name: Wait 1 seconds
+      shell: sleep 1
+
+
