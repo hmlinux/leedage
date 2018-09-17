@@ -1,0 +1,158 @@
+http://labs.frickle.com/nginx_ngx_cache_purge/
+
+groupadd wwwroot
+useradd -g wwwroot -s /sbin/nologin wwwroot -M
+yum install -y gcc gcc-c++ make zlib zlib-devel pcre pcre-devel openssl-devel gd gd-devel perl-devel perl-ExtUtils-Embed
+
+./configure --prefix=/opt/nginx \
+    --user=wwwroot \
+    --group=wwwroot \
+    --prefix=/opt/nginx \
+    --with-http_stub_status_module \
+    --with-pcre \
+    --with-http_ssl_module \
+    --with-mail_ssl_module \
+    --with-http_gzip_static_module \
+    --with-http_degradation_module \
+    --with-http_realip_module \
+    --with-http_addition_module \
+    --with-http_sub_module \
+    --with-http_perl_module \
+    --with-stream \
+    --with-threads \
+    --with-http_image_filter_module \
+    --with-http_flv_module \
+    --add-module=../ngx_cache_purge-2.3
+
+
+./configure --prefix=/opt/nginx \
+    --user=wwwroot \
+    --group=wwwroot \
+    --prefix=/opt/nginx \
+    --with-http_stub_status_module \
+    --with-pcre \
+    --with-http_ssl_module \
+    --with-mail_ssl_module \
+    --with-http_gzip_static_module \
+    --with-http_degradation_module \
+    --with-http_realip_module \
+    --with-http_addition_module \
+    --with-http_sub_module \
+    --with-http_perl_module \
+    --with-stream \
+    --with-threads \
+    --with-http_image_filter_module \
+    --with-http_flv_module \
+    --add-module=/usr/local/ngx_cache_purge-2.3
+
+
+./configure --prefix=/opt/nginx \
+    --user=wwwroot \
+    --group=wwwroot \
+    --prefix=/opt/nginx \
+    --with-http_stub_status_module \
+    --with-pcre \
+    --with-http_ssl_module \
+    --with-mail_ssl_module \
+    --with-http_gzip_static_module \
+    --with-http_degradation_module \
+    --with-http_realip_module \
+    --with-http_addition_module \
+    --with-http_sub_module \
+    --with-http_perl_module \
+    --with-stream \
+    --with-threads \
+    --with-http_image_filter_module \
+    --with-http_flv_module \
+    --add-module=/usr/local/ngx_cache_purge-2.3 \
+    --add-module=/usr/local/ngx_http_consistent_hash
+
+
+./configure --prefix=/opt/nginx     --user=nginx     --group=nginx     --prefix=/opt/nginx     --with-http_stub_status_module     --with-pcre     --with-http_ssl_module     --with-mail_ssl_module     --with-http_gzip_static_module     --with-http_degradation_module     --with-http_realip_module     --with-stream_realip_module     --with-stream_geoip_module     --with-http_addition_module     --with-http_sub_module     --with-http_perl_module     --with-stream     --with-threads     --with-http_image_filter_module     --with-http_flv_module
+
+	
+	
+
+	
+	
+	
+	
+    rewrite ^([^\.]*)/topic-(.+)\.html$ $1/portal.php?mod=topic&topic=$2 last;
+    rewrite ^([^\.]*)/forum-(\w+)-([0-9]+)\.html$ $1/forum.php?mod=forumdisplay&fid=$2&page=$3 last;
+    rewrite ^([^\.]*)/thread-([0-9]+)-([0-9]+)-([0-9]+)\.html$ $1/forum.php?mod=viewthread&tid=$2&extra=page%3D$4&page=$3 last;
+    rewrite ^([^\.]*)/group-([0-9]+)-([0-9]+)\.html$ $1/forum.php?mod=group&fid=$2&page=$3 last;
+    rewrite ^([^\.]*)/space-(username|uid)-(.+)\.html$ $1/home.php?mod=space&$2=$3 last;
+    rewrite ^([^\.]*)/(fid|tid)-([0-9]+)\.html$ $1/index.php?action=$2&value=$3 last;
+ 
+
+
+    #禁止Scrapy等工具的抓取
+    if ($http_user_agent ~* (Scrapy|Curl|HttpClient)) {
+        return 403;
+    }   
+    #禁止指定UA及UA为空的访问
+    if ($http_user_agent ~* "FeedDemon|Indy Library|Alexa Toolbar|AskTbFXTV|AhrefsBot|CrawlDaddy|CoolpadWebkit|Java|Feedly|UniversalFeedParser|ApacheBench|Microsoft URL Control|Swiftbot|ZmEu|oBot|jaunty|Python-urllib|lightDeckReports Bot|YYSpider|DigExt|HttpClient|MJ12bot|heritrix|EasouSpider|Ezooms|^$" ) {
+        return 403;
+    }
+    #禁止非GET|HEAD|POST方式的抓取
+    if ($request_method !~ ^(GET|HEAD|POST)$) {
+        return 403;
+    }
+
+
+Apache-HttpAsyncClient
+
+
+
+#禁止Scrapy等工具的抓取  
+if ($http_user_agent ~* (Scrapy|Curl|HttpClient)) {  
+  return 403;  
+}  
+#禁止指定UA及UA为空的访问  
+if ($http_user_agent ~ "FeedDemon|JikeSpider|Indy Library|Alexa Toolbar|AskTbFXTV|AhrefsBot|CrawlDaddy|CoolpadWebkit|Java|Feedly|UniversalFeedParser|ApacheBench|Microsoft URL Control|Swiftbot|ZmEu|oBot|jaunty|Python-urllib|lightDeckReports Bot|YYSpider|DigExt|YisouSpider|HttpClient|MJ12bot|heritrix|EasouSpider|LinkpadBot|Ezooms|^$" )  
+{  
+  return 403;  
+}
+#禁止非GET|HEAD|POST方式的抓取  
+if ($request_method !~ ^(GET|HEAD|POST)$) {  
+  return 403;  
+} 
+
+
+
+if ($http_user_agent ~ "Mozilla/4.0\ \(compatible;\ MSIE\ 6.0;\ Windows\ NT\ 5.1;\ SV1;\ .NET\ CLR\ 1.1.4322;\ .NET\ CLR\ 2.0.50727\)") { 
+   return 404;
+}
+
+
+
+    #location /thridParty/login {
+    #    rewrite /thridParty/login https://m.leedage.com break;
+    #}
+
+
+
+[root@leedage-app-web-node-81 conf.d]# tail -n 1000 /opt/nginx/logs/2018-06-11_access.log | awk -F\" '{A[$(NF-3)]++}END{for(k in A)print A[k],k}' | sort -n | tail  
+1 172.26.3.78:28810, 172.26.3.96:28810
+1 172.26.3.96:28810, 172.26.3.78:28810
+2 172.26.3.85:18080
+4 172.26.3.84:18080, 172.26.3.85:18080
+6 172.26.3.88:80
+225 172.26.3.84:18080
+309 172.26.3.78:28810
+452 -
+
+
+
+gif,jpg,png,jpeg,bmp,swf,flv,ico,rar,zip,doc,docx,pptx,pdf,gz,bz2,xls,xlsx
+
+
+
+    <Connector port="28810" protocol="HTTP/1.1"
+               connectionTimeout="30000"
+               redirectPort="8443"
+               maxHttpHeaderSize="16384"
+               maxThreads="5000"
+               minSpareThreads="500"
+               maxConnections="5000"
+               enableLookups="false" />
