@@ -1,0 +1,49 @@
+#!/bin/bash
+
+if [ $# -lt 3 ];then
+    echo "Usage: $0 [host|ip] [filePath] [remoteFilePath]"
+    exit 1
+fi
+
+host=$1
+filePath=$2
+fileName=$(basename $filePath)
+findPath=$3
+
+findRemoteFilePath=$(ssh $host "find $findPath -type f -name '$fileName'")
+
+echo "----------------------------------------------------------------"
+echo "更新文件>>>>>>>>>>>>>>>>>>: $fileName"
+echo ""
+echo "远程节点: $host"
+echo "源文件: $filePath"
+echo "文件名: $fileName"
+
+if [ ! -e $filePath ];then
+    echo -e "\E[33mWarning: 源文件路径不存在!!\E[0m"
+    exit 2
+else
+    if [ "$findRemoteFilePath" != "" ];then
+        echo -e "远程节点文件路径: \E[32m$findRemoteFilePath\E[0m"
+        read -p "是否需要更新该代码文件[Yes|No]? " choice
+        if [ "$choice" == "Y" -o "$choice" == "y" -o "$choice" == "yes" -o "$choice" == "Yes" ];then
+            echo "备份文件..."
+            ssh $host "scp -r $findRemoteFilePath /tmp/${fileName}_bak"
+            if [ $? -eq 0 ];then
+                echo -e "备份成功.\E[31m[/tmp/${fileName}_bak]\E[0m"
+            fi
+            rsync -avrzP $filePath $host:$findRemoteFilePath
+            if [ $? -eq 0 ];then
+                echo -e "\E[34m更新成功.\E[0m"
+            else
+                echo "更新失败!"
+            fi
+        else
+            echo "取消更新!"
+        fi
+    else
+        echo -e "\E[33mWarning: 找不到目标更新文件!!\E[0m"
+    fi
+fi
+
+echo "----------------------------------------------------------------"
