@@ -1,0 +1,63 @@
+    <Connector port="8080" protocol="HTTP/1.1"
+               connectionTimeout="30000"
+               redirectPort="8443"
+               maxHttpHeaderSize="8192"
+               maxThreads="3000"
+               minSpareThreads="100"
+               maxSpareThreads="1000"
+               minProcessors="100"
+               maxProcessors="1000"
+               acceptAccount="2000" />
+
+
+    <Connector port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443"
+               maxHttpHeaderSize="16384"
+               maxThreads="3000"
+               minSpareThreads="100"
+               maxSpareThreads="1000"
+               minProcessors="100"
+               maxProcessors="1000"
+               acceptAccount="2000"
+               maxConnections="5000" />
+
+
+    <Connector port="18080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" 
+               maxHttpHeaderSize="16384"
+               maxThreads="3000"
+               minSpareThreads="100"
+               maxSpareThreads="1000"
+               minProcessors="100"
+               maxProcessors="1000"
+               acceptAccount="3000"
+               maxConnections="5000" />
+
+
+    <Connector port="28082" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443"
+               maxHttpHeaderSize="16384"
+               maxThreads="3000"
+               minSpareThreads="100"
+               maxSpareThreads="1000"
+               minProcessors="100"
+               maxProcessors="1000"
+               acceptAccount="2000"
+               maxConnections="5000" />
+
+
+			   
+-Djava.awt.headless=true -Dfile.encoding=UTF-8
+
+-XX:PermSize=2048M -XX:MaxPermSize=2048m 
+
+-server -Xms2048m -Xmx4096m -XX:NewSize=512m -XX:MaxNewSize=2048m 
+
+
+JAVA_OPTS="-server -Xms2048m -Xmx4096m -XX:NewSize=512m -XX:MaxNewSize=2048m $JAVA_OPTS $JSSE_OPTS"
+
+-server -Xms2048m -Xmx2048m -XX:NewSize=128m -XX:MaxNewSize=1024m
+
